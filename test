@@ -1,0 +1,17 @@
+Get-ChildItem -Path C:\new_dev\excel_output_sql -Filter "*週別情報*.csv" -Recurse | ForEach-Object {
+    $filePath = $_.FullName
+    $rowCount = (Import-Csv $filePath | Measure-Object).Count
+    Write-Host "File $($filePath) has $($rowCount) records"
+}
+
+$totalRowCount = 0
+Get-ChildItem -Path C:\new_dev\excel_output_sql -Filter "*週別情報*.xlsx" -Recurse | ForEach-Object { 
+    $excel = New-Object -ComObject Excel.Application
+    $workbook = $excel.Workbooks.Open($_.FullName)
+    $worksheet = $workbook.Worksheets.Item(1)
+    $rowCount = ($worksheet.UsedRange.Rows).count - 1
+    $totalRowCount += $rowCount
+    $workbook.Close($false)
+    [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel)
+}
+Write-Host "Total record count: $totalRowCount"
