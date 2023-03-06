@@ -15,3 +15,9 @@ Get-ChildItem -Path C:\new_dev\excel_output_sql -Filter "*週別情報*.xlsx" -R
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel)
 }
 Write-Host "Total record count: $totalRowCount"
+
+
+
+
+(Get-ChildItem -Path .\ -Recurse -Filter "日別情報" | Select-Object -ExpandProperty FullName | Get-Content | Measure-Object -Line).Lines
+
