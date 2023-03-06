@@ -18,6 +18,8 @@ Write-Host "Total record count: $totalRowCount"
 
 
 
+$totalCount = 0
+Import-Csv $_.FullName | ForEach-Object { $totalCount++ }
+Write-Host "File $($_.FullName) has $totalCount records"
 
-(Get-ChildItem -Path .\ -Recurse -Filter "日別情報" | Select-Object -ExpandProperty FullName | Get-Content | Measure-Object -Line).Lines
 
